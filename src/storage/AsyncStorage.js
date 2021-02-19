@@ -1,10 +1,15 @@
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function StorageBase(key) {
   async function getItem() {
-    const result  = await AsyncStorage.getItem(key).then(res=>JSON.parse(res));
-    return result;
+    try {
+      const result = await AsyncStorage.getItem(key).then((res) =>
+        JSON.parse(res),
+      );
+      return result;
+    } catch (e) {
+      console.log(e.message);
+    }
   }
 
   function setItem(value) {

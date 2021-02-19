@@ -1,12 +1,14 @@
 import axios from 'axios';
-import asyncStorage from '@react-native-async-storage/async-storage';
-import {API_URL} from "@env"
+import {API_URL} from '@env';
+import LocalStorage from '../storage';
 
-const axiosInterceptor = axios.create({
-  headers: {
-    Authorization: `Bearer ${asyncStorage.getItem('authToken')}`,
-  },
-  baseURL: "http://192.168.1.11:8001",
-});
-console.log(API_URL)
+async function axiosInterceptor(config = {}) {
+  const token = await LocalStorage.authToken.getItem();
+  return axios.create({
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    baseURL: `${API_URL}`,
+  })(config);
+}
 export default axiosInterceptor;

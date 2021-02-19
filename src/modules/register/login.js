@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   TextInput,
@@ -10,12 +10,17 @@ import ApiCalls from '../../api/ApiCalls';
 import AuthContext from '../../contexts/authContext';
 import UserContext from '../../contexts/userContext';
 import Toast from 'react-native-toast-message';
+import LocalStorage from '../../storage';
 
 function Login({navigation}) {
   const {setUserData} = useContext(UserContext);
   const {setAuthToken} = useContext(AuthContext);
   function handleFormData(value, fieldName) {
     setFormData({...formData, [fieldName]: value});
+  }
+  async function getAuthToken() {
+    const token = await LocalStorage.authToken.getItem();
+    Toast.show({type: 'success', text1: token});
   }
   function handleSubmit() {
     ApiCalls.login(formData)
@@ -26,7 +31,9 @@ function Login({navigation}) {
       .catch((e) => {
         console.log(e);
         if (e.response) {
-          Toast.show({type:'error',text1: e.response.data});
+          Toast.show({type: 'error', text1: e.response.data});
+        } else {
+          Toast.show({type: 'error', text1: e.message});
         }
       });
   }
@@ -34,6 +41,9 @@ function Login({navigation}) {
     navigation.navigate('signup');
   }
   const [formData, setFormData] = useState({});
+  useEffect(() => {
+    getAuthToken();
+  }, []);
 
   return (
     <View style={styles.container}>

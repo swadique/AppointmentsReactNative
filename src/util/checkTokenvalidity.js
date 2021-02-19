@@ -1,7 +1,9 @@
 import jwtDecode from 'jwt-decode';
 import Toast from 'react-native-toast-message';
+import LocalStorage from '../storage';
 
-async function checkTokenValidity(token) {
+async function checkTokenValidity() {
+  token = await LocalStorage.authToken.getItem();
   return new Promise((resolve, reject) => {
     try {
       if (!token) {
