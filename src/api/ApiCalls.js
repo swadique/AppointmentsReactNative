@@ -66,5 +66,14 @@ class ApiCalls {
       params: params,
     }).then((response) => response.data);
   }
+  static createAppointment(
+    model = {seller, slotId, startTime, endTime, appointmentDate, duration},
+  ) {
+    return axiosInterceptor({
+      url: '/appointment',
+      method: 'POST',
+      data: model,
+    }).then((response) => response.data);
+  }
 }
 export default ApiCalls;

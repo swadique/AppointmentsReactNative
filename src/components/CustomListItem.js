@@ -2,10 +2,9 @@ import React from 'react';
 import {Icon, ListItem} from 'react-native-elements';
 import CustomAvatar from './CustomAvatar';
 
-
-function CustomListItem({key, avatarUrl, title, subTitle,onPress}) {
+function CustomListItem({avatarUrl, title, subTitle, onPress}) {
   return (
-    <ListItem key={key} bottomDivider onPress={onPress}>
+    <ListItem bottomDivider onPress={onPress}>
       <CustomAvatar url={avatarUrl} />
       <ListItem.Content>
         <ListItem.Title>{title}</ListItem.Title>

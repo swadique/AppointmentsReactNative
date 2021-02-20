@@ -1,92 +1,105 @@
-import { useFocusEffect } from '@react-navigation/native';
-import React, {useState} from 'react';
-import {View, Text} from 'react-native';
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+import React, {useState, useEffect, useCallback} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import moment from 'moment';
+import {Agenda} from 'react-native-calendars';
 import ApiCalls from '../../api/ApiCalls';
 function SlotList({navigation, route}) {
-  const [selectedDay, setSelectedDay] = useState(new Date());
-  coonst [slotsList,seetSlotsList] = useState([])
-  const {seller} = route.params
-  useFocusEffect(
-    React.useCallback(() => {
-      getAvailableSlots(new Date())
-    }, []),
+  const [agendaItems, setAgendaItems] = useState({});
+  const [selectedDate, setSelectedDate] = useState(
+    moment().format('YYYY-MM-DD'),
   );
+  const {seller} = route.params;
 
-  function getAvailableSlots(day){
-    ApiCalls.getAvailableSlots({seller:seller._id,appointmentDate:new Date(day).toISOString()})
-        .then((response) => {
-          seetSlotsList(response);
-        })
-        .catch((error) => {
-          console.log(error);
-          if (error.response) {
-            // Toast.show({type: 'error', text1: error.response.data});
-          } else {
-            // Toast.show({type: 'error', text1: 'Server not responding'});
-          }
-        });
-    // console.log(e)
+  useEffect(() => {
+    getAvailableSlots(selectedDate);
+    console.log(agendaItems)
+  }, [selectedDate]);
+
+  function getAvailableSlots(day) {
+    ApiCalls.getAvailableSlots({
+      seller: seller._id,
+      appointmentDate: moment(day).toISOString(),
+    })
+      .then((response) => {
+        setAgendaItems({[day]: response});
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response) {
+          Toast.show({type: 'error', text1: error.response.data});
+        } else {
+          Toast.show({type: 'error', text1: 'Server not responding'});
+        }
+      });
   }
 
+  function handleSlotPress(appointmentData = {slot: {}, seller: {}}) {
+    navigation.navigate({
+      name: 'Book Appointment',
+      params: {...appointmentData},
+    });
+  }
+
+  function renderItem(item) {
+    return (
+      <TouchableOpacity
+        style={[styles.renderItem]}
+        onPress={() =>
+          handleSlotPress({
+            slot: item,
+            seller: seller,
+            appointmentDate: selectedDate,
+          })
+        }>
+        <Text>{`${item.startTime} - ${item.endTime}`}</Text>
+      </TouchableOpacity>
+    );
+  }
+  function renderEmptyDate() {
+    return (
+      <View style={styles.emptyDate}>
+        <Text>No slots available in this day</Text>
+      </View>
+    );
+  }
 
   return (
-    <>
-      <Agenda
-        items={{
-          '2021-02-19': [{name: 'item 1 - any js object'}],
-          '2021-02-20': [{name: 'item 2 - any js object', height: 80}],
-          '2021-02-22': [
-            {name: 'item 3 - any js object'},
-            {name: 'any js object'},
-          ],
-        }}
-        loadItemsForMonth={(month) => {
-          console.log('trigger items loading');
-        }}
-        onCalendarToggled={(calendarOpened) => {
-          console.log(calendarOpened,'calendarOpened');
-        }}
-        onDayPress={({dateString}) => {
-          getAvailableSlots(dateString)
-          console.log('day pressed',dateString);
-        }}
-        onDayChange={(day) => {
-          console.log('day changed');
-        }}
-        selected={new Date()}
-        minDate={new Date()}
-        pastScrollRange={1}
-        futureScrollRange={4}
-        renderItem={(item, firstItemInDay) => {
-          return <Text >{item.name}</Text>;
-        }}
-        renderEmptyDate={() => {
-          return <Text>No slots available</Text>;
-        }}
-        renderKnob={() => {
-          return <View />;
-        }}
-        renderEmptyData={() => {
-          return <Text></Text>;
-        }}
-        rowHasChanged={(r1, r2) => {
-          return r1.text !== r2.text;
-        }}
-        
-        onRefresh={() => console.log('refreshing...')}
-        refreshing={false}
-        refreshControl={null}
-        theme={{
-          agendaDayTextColor: 'yellow',
-          agendaDayNumColor: 'green',
-          agendaTodayColor: 'red',
-          agendaKnobColor: 'blue',
-        }}
-        style={{}}
-      />
-    </>
+    <Agenda
+      items={agendaItems}
+      onDayPress={({dateString}) => setSelectedDate(dateString)}
+      minDate={new Date()}
+      pastScrollRange={1}
+      futureScrollRange={4}
+      renderItem={renderItem}
+      renderEmptyDate={renderEmptyDate}
+      rowHasChanged={(r1, r2) => {
+        return r1.text !== r2.text;
+      }}
+      refreshing={false}
+      refreshControl={null}
+    />
   );
 }
+const styles = StyleSheet.create({
+  renderItem: {
+    backgroundColor: 'white',
+    borderRadius: 5,
+    marginRight: 10,
+    marginTop: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    height: 80,
+  },
+  emptyDate: {
+    backgroundColor: 'lightgrey',
+    borderRadius: 5,
+    marginRight: 10,
+    marginTop: 16,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default SlotList;
