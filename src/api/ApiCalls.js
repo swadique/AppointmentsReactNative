@@ -58,5 +58,13 @@ class ApiCalls {
       method: 'GET',
     }).then((response) => response.data);
   }
+
+  static getAvailableSlots(params = {seller, appointmentDate}) {
+    return axiosInterceptor({
+      url: '/appointment/available-intervals',
+      method: 'GET',
+      params: params,
+    }).then((response) => response.data);
+  }
 }
 export default ApiCalls;

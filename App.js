@@ -28,18 +28,23 @@ const App = () => {
   const Tab = createBottomTabNavigator();
 
   React.useEffect(() => {
-    checkTokenValidity().then(({status, type}) => {
-      console.log(status, type);
-      if (status) {
-        setLoading(false);
-        setIsValidToken(true);
-        Toast.show({text1: type});
-      } else {
+    checkTokenValidity()
+      .then(({status, type}) => {
+        if (status) {
+          setLoading(false);
+          setIsValidToken(true);
+        } else {
+          setLoading(false);
+          setIsValidToken(false);
+          Toast.show({text1: type});
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
         setLoading(false);
         setIsValidToken(false);
-        Toast.show({text1: type});
-      }
-    });
+        Toast.show({text1: 'Please login again'});
+      });
   }, [authToken]);
 
   function updateUserData(data) {
@@ -80,38 +85,41 @@ const App = () => {
                     tabBarIcon: ({focused, color, size}) => {
                       let iconName;
 
-                      if (route.name === 'Home') {
-                        iconName = focused
-                          ? 'ios-information-circle'
-                          : 'ios-information-circle-outline';
-                      } else if (route.name === 'Settings') {
-                        iconName = focused ? 'ios-list-box' : 'ios-list';
+                      if (route.name === 'sellers') {
+                        iconName = focused ? 'add' : 'add';
+                      } else if (route.name === 'appointments') {
+                        iconName = focused ? 'alarm' : 'alarm';
+                      } else if (route.name === 'home') {
+                        iconName = focused ? 'home' : 'home';
                       }
                       return (
-                        <>
-                          <Icon nname="g-translate" color="#000" />
-                        </>
+                        <Icon
+                          name={iconName}
+                          type="ionicons"
+                          // color={focused ? '#517fa4' : 'grey'}
+                        />
                       );
                     },
                   })}
                   tabBarOptions={{
-                    activeTintColor: 'blue',
-                    inactiveTintColor: 'gray',
+                    // activeTintColor: '#517fa4',
+                    // inactiveTintColor: 'gray',
                   }}>
                   <Tab.Screen
                     name="home"
                     component={Home}
                     options={{title: 'Home'}}
                   />
+
+                  <Tab.Screen
+                    name="sellers"
+                    component={Sellers}
+                    options={{title: 'Add'}}
+                  />
                   <Tab.Screen
                     name="appointments"
                     component={Appointments}
                     options={{title: 'Appointments'}}
-                  />
-                  <Tab.Screen
-                    name="sellers"
-                    component={Sellers}
-                    options={{title: 'Sellers'}}
                   />
                 </Tab.Navigator>
               ) : (
