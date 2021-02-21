@@ -1,35 +1,25 @@
-import React, {useContext,useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
-import { ListItem,Avatar} from 'react-native-elements';
+import {ListItem, Avatar} from 'react-native-elements';
 import UserContext from '../../contexts/userContext';
 import {Header} from 'react-native-elements';
+import {useFocusEffect} from '@react-navigation/native';
+import ApiCalls from '../../api/ApiCalls';
+import CustomAvatar from '../../components/CustomAvatar';
+import CustomListItem from '../../components/CustomListItem';
+import AppointmentList from './AppointmentList';
+import AppointmentDetails from './AppointmentDetails';
+import { createStackNavigator } from '@react-navigation/stack';
+function Appointments() {
+  const Stack = createStackNavigator();
 
-function Appointments({navigation}) {
-  const {userData} = useContext(UserContext);
-  const [appointments,setAppointments] = useState([])
   return (
-    <View style={styles.container}>
-      <Header
-        placement="left"
-        leftComponent={{text: 'MY APPOINTMENTS', style: {color: '#fff'}}}
-        backgroundColor={'#455a64'}
-      />
-      <View>
-        {appointments.map((l, i) => (
-          <ListItem key={i} bottomDivider>
-            <Avatar source={{uri: l.avatar_url}} />
-            <ListItem.Content>
-              <ListItem.Title>{l.name}</ListItem.Title>
-              <ListItem.Subtitle>{l.subtitle}</ListItem.Subtitle>
-            </ListItem.Content>
-          </ListItem>
-        ))}
-      </View>
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen name="Appointment List" component={AppointmentList} />
+      <Stack.Screen name="Appointment Details" component={AppointmentDetails} />
+    </Stack.Navigator>
   );
 }
-const styles = StyleSheet.create({
- 
-});
+const styles = StyleSheet.create({});
 
 export default Appointments;

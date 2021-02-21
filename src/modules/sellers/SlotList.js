@@ -1,5 +1,11 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ToastAndroid,
+} from 'react-native';
 import moment from 'moment';
 import {Agenda} from 'react-native-calendars';
 import ApiCalls from '../../api/ApiCalls';
@@ -12,7 +18,7 @@ function SlotList({navigation, route}) {
 
   useEffect(() => {
     getAvailableSlots(selectedDate);
-    console.log(agendaItems)
+    console.log(agendaItems);
   }, [selectedDate]);
 
   function getAvailableSlots(day) {
@@ -26,9 +32,9 @@ function SlotList({navigation, route}) {
       .catch((error) => {
         console.log(error);
         if (error.response) {
-          Toast.show({type: 'error', text1: error.response.data});
+          ToastAndroid.show(error.response.data);
         } else {
-          Toast.show({type: 'error', text1: 'Server not responding'});
+          ToastAndroid.show('Server not responding');
         }
       });
   }

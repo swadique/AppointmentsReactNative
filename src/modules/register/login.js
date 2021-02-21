@@ -5,11 +5,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   Text,
+  ToastAndroid,
 } from 'react-native';
 import ApiCalls from '../../api/ApiCalls';
 import AuthContext from '../../contexts/authContext';
 import UserContext from '../../contexts/userContext';
-import Toast from 'react-native-toast-message';
 import LocalStorage from '../../storage';
 
 function Login({navigation}) {
@@ -18,10 +18,7 @@ function Login({navigation}) {
   function handleFormData(value, fieldName) {
     setFormData({...formData, [fieldName]: value});
   }
-  async function getAuthToken() {
-    const token = await LocalStorage.authToken.getItem();
-    Toast.show({type: 'success', text1: token});
-  }
+
   function handleSubmit() {
     ApiCalls.login(formData)
       .then((res) => {
@@ -31,9 +28,9 @@ function Login({navigation}) {
       .catch((e) => {
         console.log(e);
         if (e.response) {
-          Toast.show({type: 'error', text1: e.response.data});
+          ToastAndroid.show(e.response.data);
         } else {
-          Toast.show({type: 'error', text1: e.message});
+          ToastAndroid.show(e.message);
         }
       });
   }
@@ -41,13 +38,9 @@ function Login({navigation}) {
     navigation.navigate('signup');
   }
   const [formData, setFormData] = useState({});
-  useEffect(() => {
-    getAuthToken();
-  }, []);
 
   return (
     <View style={styles.container}>
-      <Toast ref={(ref) => Toast.setRef(ref)} />
       <TextInput
         style={styles.inputBox}
         underlineColorAndroid="rgba(0,0,0,0)"

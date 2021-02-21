@@ -1,7 +1,6 @@
 import React, {useState, useCallback} from 'react';
-import {View} from 'react-native';
+import {View, ToastAndroid} from 'react-native';
 import ApiCalls from '../../api/ApiCalls';
-import Toast from 'react-native-toast-message';
 import {useFocusEffect} from '@react-navigation/native';
 import CustomListItem from '../../components/CustomListItem';
 
@@ -16,9 +15,9 @@ function SellersList({navigation}) {
         .catch((error) => {
           console.log(error);
           if (error.response) {
-            Toast.show({type: 'error', text1: error.response.data});
+            ToastAndroid.show(error.response.data);
           } else {
-            Toast.show({type: 'error', text1: 'Server not responding'});
+            ToastAndroid.show('Server not responding');
           }
         });
     }, []),
@@ -32,7 +31,7 @@ function SellersList({navigation}) {
       {sellerList.map((item, index) => (
         <CustomListItem
           avatarUrl={item.profilePic}
-          title={`${item.firstName} ${item.lastName}`}
+          title={`${item.firstName} ${item.lastName || ''}`}
           subTitle={item.email}
           onPress={() => handleSelection(item)}
           key={index}

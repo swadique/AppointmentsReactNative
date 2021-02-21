@@ -1,14 +1,11 @@
-import {Button} from 'native-base';
 import React from 'react';
 import {
   View,
   Text,
-  TextInput,
   StyleSheet,
-  TouchableOpacity,
+  ToastAndroid,
 } from 'react-native';
 import {Card} from 'react-native-elements';
-import Toast from 'react-native-toast-message';
 import ApiCalls from '../../api/ApiCalls';
 import PrimaryButton from '../../components/PrimaryButton';
 import moment from 'moment';
@@ -34,25 +31,27 @@ function BookAppointment({navigation, route}) {
       appointmentDate: appointmentDate,
     })
       .then((res) => {
-        Toast.show({
-          type: 'success',
-          text1: 'The appointment created successfully',
-        });
+        ToastAndroid.showWithGravity(
+          'The appointment created successfully',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
         navigation.navigate('Choose Seller');
       })
       .catch((e) => {
         console.log(e);
-        Toast.show({type: 'error', text1: 'Creating appointment failed'});
+        ToastAndroid.showWithGravity(
+          'Creating appointment failed',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
       });
   }
   return (
     <View>
-      <Toast ref={(ref) => Toast.setRef(ref)} />
-      {console.log(seller)}
       <Card>
         <Card.Title>
           <Text>Appointment Details</Text>
-          {console.log(slot)}
         </Card.Title>
         <Card.Divider />
         <View style={Styles.CardDetails}>

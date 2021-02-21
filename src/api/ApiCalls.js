@@ -75,5 +75,14 @@ class ApiCalls {
       data: model,
     }).then((response) => response.data);
   }
+  static cancelAppointment(
+    model = {appointmentId},
+  ) {
+    return axiosInterceptor({
+      url: '/appointment/cancel',
+      method: 'POST',
+      data: model,
+    }).then((response) => response.data);
+  }
 }
 export default ApiCalls;

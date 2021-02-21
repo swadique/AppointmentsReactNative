@@ -1,5 +1,4 @@
 import jwtDecode from 'jwt-decode';
-import Toast from 'react-native-toast-message';
 import LocalStorage from '../storage';
 
 async function checkTokenValidity() {
@@ -7,7 +6,7 @@ async function checkTokenValidity() {
   return new Promise((resolve, reject) => {
     try {
       if (!token) {
-        resolve({status: false, type: 'null'});
+        resolve({status: false, type: 'Logouting'});
       }
       const decodedToken = jwtDecode(token);
       if (decodedToken.exp * 1000 < Date.now()) {
