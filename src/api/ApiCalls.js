@@ -52,10 +52,11 @@ class ApiCalls {
       params: params,
     }).then((response) => response.data);
   }
-  static getSellersList(params) {
+  static getSellersList(params={searchKey:'',filter:'available'}) {
     return axiosInterceptor({
       url: '/user/sellers-list',
       method: 'GET',
+      params:params
     }).then((response) => response.data);
   }
 

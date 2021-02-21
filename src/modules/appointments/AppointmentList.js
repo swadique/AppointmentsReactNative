@@ -1,29 +1,11 @@
 import {useFocusEffect} from '@react-navigation/native';
-import React, {useCallback, useState} from 'react';
-import {View} from 'react-native';
+import React, { useState} from 'react';
+import {View,ToastAndroid} from 'react-native';
 import ApiCalls from '../../api/ApiCalls';
 import CustomListItem from '../../components/CustomListItem';
 import moment from 'moment';
 function AppointmentList({navigation}) {
   const [appointments, setAppointments] = useState([]);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      ApiCalls.getAppointments()
-        .then((res) => {
-          setAppointments(res);
-        })
-        .catch((error) => {
-          console.log(error);
-          console.log(error);
-          if (error.response) {
-            ToastAndroid.show(error.response.data);
-          } else {
-            ToastAndroid.show('Server not responding');
-          }
-        });
-    }, []),
-  );
 
   useFocusEffect(
     React.useCallback(() => {
@@ -36,7 +18,7 @@ function AppointmentList({navigation}) {
           if (error.response) {
             ToastAndroid.show(error.response.data);
           } else {
-            ToastAndroid.show('Server not responding');
+            ToastAndroid.show('Server not responding',ToastAndroid.SHORT);
           }
         });
     }, []),

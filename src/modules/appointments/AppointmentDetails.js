@@ -27,7 +27,15 @@ function AppointmentDetails({route}) {
     {label: 'Slot', value: `${startTime} - ${endTime}`},
   ];
   function cancelAppointment(appointmentId) {
-    ApiCalls.cancelAppointment({appointmentId: appointmentId}).then(re)
+    ApiCalls.cancelAppointment({appointmentId: appointmentId}).then(res=>{
+      navigator.navigation("Appointment List")
+    }).catch(e=>{
+      if(error.response){
+        ToastAndroid.show(error.response.data)
+      }else{
+        ToastAndroid.show("Server not responding")
+      }
+    })
   }
 
   return (

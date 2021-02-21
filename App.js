@@ -129,7 +129,7 @@ const App = () => {
                 <Tab.Screen name="Settings" component={Settings} />
               </Tab.Navigator>
             ) : (
-              <Stack.Navigator initialRouteName="login">
+              <Stack.Navigator initialRouteName="login" headerMode="none">
                 <Stack.Screen
                   name="login"
                   component={Login}
