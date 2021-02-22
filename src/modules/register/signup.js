@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Text,
+  ToastAndroid,
 } from 'react-native';
 import ApiCalls from '../../api/ApiCalls';
 
@@ -13,17 +14,23 @@ function Signup({navigation}) {
     setFormData({...formData, [fieldName]: value});
   }
   function handleSubmit() {
-    try{
-      ApiCalls.signup({...formData}).then((res) => {
+    ApiCalls.signup(formData)
+      .then(() => {
         navigation.navigate('login');
-      }).catch(e=>console.log(e.response.data))
-    }catch(e){
-      console.log(e.message)
-    }
-    
-    console.log(formData);
+      })
+      .catch((e) => {
+        if (e.response) {
+          ToastAndroid.show(`${e.response.data}`);
+        } else {
+          ToastAndroid.show('Server not responding');
+        }
+      });
   }
-  const [formData, setFormData] = useState({userType:'buyer'});
+
+  function onLoginPress(params) {
+    navigation.navigate('login');
+  }
+  const [formData, setFormData] = useState({userType: 'buyer'});
 
   return (
     <View style={styles.container}>
@@ -64,6 +71,9 @@ function Signup({navigation}) {
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>Signup</Text>
       </TouchableOpacity>
+      <Text style={styles.logintext} onPress={onLoginPress}>
+        Login
+      </Text>
     </View>
   );
 }
@@ -94,6 +104,13 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 16,
     fontWeight: '500',
+    color: '#ffffff',
+    textAlign: 'center',
+  },
+  logintext: {
+    marginVertical: 20,
+    fontSize: 16,
+    fontWeight: '600',
     color: '#ffffff',
     textAlign: 'center',
   },

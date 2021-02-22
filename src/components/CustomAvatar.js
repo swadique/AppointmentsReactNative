@@ -1,6 +1,6 @@
 import React from 'react';
-import {API_URL} from '@env';
 import {Avatar} from 'react-native-elements';
+import {SERVER_URI} from '../config/connection';
 
 function CustomAvatar({
   url,
@@ -10,7 +10,7 @@ function CustomAvatar({
   onPress,
   title,
 }) {
-  const baseUrl = API_URL;
+  const baseUrl = SERVER_URI;
   return (
     <>
       <Avatar

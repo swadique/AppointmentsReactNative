@@ -1,16 +1,10 @@
-import React, {useState, useCallback, useEffect, useLayoutEffect} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useState} from 'react';
 import {View, ToastAndroid} from 'react-native';
 import ApiCalls from '../../api/ApiCalls';
 import {useFocusEffect} from '@react-navigation/native';
 import CustomListItem from '../../components/CustomListItem';
-import {
-  Header,
-  Icon,
-  Input,
-  SearchBar,
-  Button,
-  CheckBox,
-} from 'react-native-elements';
+import {SearchBar, CheckBox} from 'react-native-elements';
 
 function SellersList({navigation}) {
   const [sellerList, setSellerList] = useState([]);
@@ -26,7 +20,7 @@ function SellersList({navigation}) {
         .catch((error) => {
           console.log(error.response);
           if (error.response) {
-            ToastAndroid.show(error.response.data);
+            ToastAndroid.show(`${error.response.data}`);
           } else {
             ToastAndroid.show('Server not responding', ToastAndroid.SHORT);
           }
@@ -42,7 +36,7 @@ function SellersList({navigation}) {
   function handleSelection(user) {
     if (user.isAllSlotsActive == true) {
       navigation.navigate({name: 'Choose Slot', params: {seller: user}});
-    }else{
+    } else {
       ToastAndroid.show('The seller is not available', ToastAndroid.SHORT);
     }
   }

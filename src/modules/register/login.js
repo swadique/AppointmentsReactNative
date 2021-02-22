@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   TextInput,
@@ -10,7 +10,6 @@ import {
 import ApiCalls from '../../api/ApiCalls';
 import AuthContext from '../../contexts/authContext';
 import UserContext from '../../contexts/userContext';
-import LocalStorage from '../../storage';
 
 function Login({navigation}) {
   const {setUserData} = useContext(UserContext);
@@ -28,9 +27,9 @@ function Login({navigation}) {
       .catch((e) => {
         console.log(e);
         if (e.response) {
-          ToastAndroid.show(e.response.data);
+          ToastAndroid.show(`${e.response.data}`);
         } else {
-          ToastAndroid.show(e.message);
+          ToastAndroid.show(`${e.message}`);
         }
       });
   }

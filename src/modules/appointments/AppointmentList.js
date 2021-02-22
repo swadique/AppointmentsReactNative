@@ -1,6 +1,6 @@
 import {useFocusEffect} from '@react-navigation/native';
-import React, { useState} from 'react';
-import {View,ToastAndroid} from 'react-native';
+import React, {useState} from 'react';
+import {View, ToastAndroid} from 'react-native';
 import ApiCalls from '../../api/ApiCalls';
 import CustomListItem from '../../components/CustomListItem';
 import moment from 'moment';
@@ -18,7 +18,7 @@ function AppointmentList({navigation}) {
           if (error.response) {
             ToastAndroid.show(error.response.data);
           } else {
-            ToastAndroid.show('Server not responding',ToastAndroid.SHORT);
+            ToastAndroid.show('Server not responding', ToastAndroid.SHORT);
           }
         });
     }, []),

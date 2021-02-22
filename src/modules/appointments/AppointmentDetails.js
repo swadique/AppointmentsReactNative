@@ -1,8 +1,8 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, StyleSheet, Text, ToastAndroid} from 'react-native';
 import CustomAvatar from '../../components/CustomAvatar';
 import {Card} from 'react-native-elements';
-import PrimaryButton from '../../components/PrimaryButton';
 import moment from 'moment';
 import SecondaryButton from '../../components/SecodaryButton';
 import ApiCalls from '../../api/ApiCalls';
@@ -27,15 +27,17 @@ function AppointmentDetails({route}) {
     {label: 'Slot', value: `${startTime} - ${endTime}`},
   ];
   function cancelAppointment(appointmentId) {
-    ApiCalls.cancelAppointment({appointmentId: appointmentId}).then(res=>{
-      navigator.navigation("Appointment List")
-    }).catch(e=>{
-      if(error.response){
-        ToastAndroid.show(error.response.data)
-      }else{
-        ToastAndroid.show("Server not responding")
-      }
-    })
+    ApiCalls.cancelAppointment({appointmentId: appointmentId})
+      .then((res) => {
+        navigator.navigation('Appointment List');
+      })
+      .catch((error) => {
+        if (error.response) {
+          ToastAndroid.show(`${error.response.data}`);
+        } else {
+          ToastAndroid.show('Server not responding');
+        }
+      });
   }
 
   return (

@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ToastAndroid,
-} from 'react-native';
+import {View, Text, StyleSheet, ToastAndroid} from 'react-native';
 import {Card} from 'react-native-elements';
 import ApiCalls from '../../api/ApiCalls';
 import PrimaryButton from '../../components/PrimaryButton';
@@ -55,7 +50,6 @@ function BookAppointment({navigation, route}) {
         </Card.Title>
         <Card.Divider />
         <View style={Styles.CardDetails}>
-          <View></View>
           {sellerData.map((item, index) => (
             <View style={Styles.textWrapper}>
               <Text>

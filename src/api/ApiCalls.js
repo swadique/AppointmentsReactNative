@@ -52,37 +52,40 @@ class ApiCalls {
       params: params,
     }).then((response) => response.data);
   }
-  static getSellersList(params={searchKey:'',filter:'available'}) {
+  static getSellersList(params = {searchKey: '', filter: 'available'}) {
     return axiosInterceptor({
       url: '/user/sellers-list',
-      method: 'GET',
-      params:params
-    }).then((response) => response.data);
-  }
-
-  static getAvailableSlots(params = {seller, appointmentDate}) {
-    return axiosInterceptor({
-      url: '/appointment/available-intervals',
       method: 'GET',
       params: params,
     }).then((response) => response.data);
   }
-  static createAppointment(
-    model = {seller, slotId, startTime, endTime, appointmentDate, duration},
-  ) {
+
+  static getAvailableSlots({seller, appointmentDate}) {
+    return axiosInterceptor({
+      url: '/appointment/available-intervals',
+      method: 'GET',
+      params: {seller, appointmentDate},
+    }).then((response) => response.data);
+  }
+  static createAppointment({
+    seller,
+    slotId,
+    startTime,
+    endTime,
+    appointmentDate,
+    duration,
+  }) {
     return axiosInterceptor({
       url: '/appointment',
       method: 'POST',
-      data: model,
+      data: {seller, slotId, startTime, endTime, appointmentDate, duration},
     }).then((response) => response.data);
   }
-  static cancelAppointment(
-    model = {appointmentId},
-  ) {
+  static cancelAppointment({appointmentId}) {
     return axiosInterceptor({
       url: '/appointment/cancel',
       method: 'POST',
-      data: model,
+      data: {appointmentId},
     }).then((response) => response.data);
   }
 }

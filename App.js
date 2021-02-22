@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -38,7 +39,7 @@ const App = () => {
         } else {
           setLoading(false);
           setIsValidToken(false);
-          ToastAndroid.show(type, ToastAndroid.SHORT);
+          ToastAndroid.show(`${type}`, ToastAndroid.SHORT);
         }
       })
       .catch((error) => {

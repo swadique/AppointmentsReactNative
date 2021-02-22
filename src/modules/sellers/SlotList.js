@@ -1,4 +1,5 @@
-import React, {useState, useEffect, useCallback} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -18,7 +19,6 @@ function SlotList({navigation, route}) {
 
   useEffect(() => {
     getAvailableSlots(selectedDate);
-    console.log(agendaItems);
   }, [selectedDate]);
 
   function getAvailableSlots(day) {
@@ -32,7 +32,7 @@ function SlotList({navigation, route}) {
       .catch((error) => {
         console.log(error);
         if (error.response) {
-          ToastAndroid.show(error.response.data);
+          ToastAndroid.show(`${error.response.data}`);
         } else {
           ToastAndroid.show('Server not responding');
         }

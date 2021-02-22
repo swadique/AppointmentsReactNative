@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useState, useEffect} from 'react';
 import {View, StyleSheet, Text, Alert} from 'react-native';
 import {Card, Input} from 'react-native-elements';
@@ -53,21 +54,7 @@ function Settings() {
       });
     });
   }
-  function updateProfilePic() {
-    ImagePicker.showImagePicker(pickerOptions, (response) => {
-      console.log('Response = ', response);
-
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        setFile(response.data);
-      }
-    });
-  }
+  function updateProfilePic() {}
 
   return (
     <View style={Styles.container}>
@@ -122,7 +109,7 @@ function Settings() {
             )}
           </View>
         </View>
-        <Card.Divider/>
+        <Card.Divider />
         <CustomListItem
           title="Logout"
           onPress={handleLogout}

@@ -2,7 +2,7 @@ import jwtDecode from 'jwt-decode';
 import LocalStorage from '../storage';
 
 async function checkTokenValidity() {
-  token = await LocalStorage.authToken.getItem();
+  const token = await LocalStorage.authToken.getItem();
   return new Promise((resolve, reject) => {
     try {
       if (!token) {
