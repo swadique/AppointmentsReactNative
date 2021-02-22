@@ -20,7 +20,7 @@ function SellersList({navigation}) {
         .catch((error) => {
           console.log(error.response);
           if (error.response) {
-            ToastAndroid.show(`${error.response.data}`);
+            ToastAndroid.show(`${error.response.data}`, ToastAndroid.SHORT);
           } else {
             ToastAndroid.show('Server not responding', ToastAndroid.SHORT);
           }

@@ -14,9 +14,10 @@ function AppointmentList({navigation}) {
           setAppointments(response);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
           if (error.response) {
-            ToastAndroid.show(error.response.data);
+            console.log(error.response);
+            ToastAndroid.show(`${error.response.data}`, ToastAndroid.SHORT);
           } else {
             ToastAndroid.show('Server not responding', ToastAndroid.SHORT);
           }

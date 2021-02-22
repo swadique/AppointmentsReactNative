@@ -27,9 +27,9 @@ function Login({navigation}) {
       .catch((e) => {
         console.log(e);
         if (e.response) {
-          ToastAndroid.show(`${e.response.data}`);
+          ToastAndroid.show(`${e.response.data}`, ToastAndroid.SHORT);
         } else {
-          ToastAndroid.show(`${e.message}`);
+          ToastAndroid.show(`${e.message}`, ToastAndroid.SHORT);
         }
       });
   }
